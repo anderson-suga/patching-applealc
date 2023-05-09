@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Ryan Palma, 2020
+# Github @ryahpalma
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+if [[ $(find hex-backup 2> /dev/null) ]]; then
+    STATUS=RERUN
+else
+    if [[ -f "codec.txt" ]]; then
+        STATUS=RUN
+        printf "Getcodec (versão 0.2)\n"
+        printf "@ryahpalma\n\n"
+    fi
+fi
+
+if [[ $STATUS == RUN ]]; then
+    if [ ! -d scripts ]; then
+  	mkdir -p scripts && mv verbit conversor-decimal.rb scripts/
+    fi
+    if [ ! -d gerados ]; then
+  	mkdir -p convertidos
+    fi
+    printf "Verificando dependenciais...\n"
+    pkgs='ruby python codecgraph graphviz'
+    if ! dpkg -s $pkgs >/dev/null 2>&1; then
+	printf "Instalando dependencias...\n"
+  	sudo apt-get update -qq > /dev/null && sudo apt-get -y install $pkgs -qq > /dev/null
+    fi
+    printf "Configurando os privilégios dos scripts…"
+    chmod +x scripts/verbit scripts/conversor-decimal.rb
+    printf "\nGerando gráfico do codec..."
+    codecgraph codec.txt
+    printf "Convertendo gráfico gerado para decimal..."
+    scripts/./conversor-decimal.rb codec.txt.svg > codec-decimal.txt.svg
+    printf "\nConvertendo informações do codec para decimal..."
+    scripts/./conversor-decimal.rb codec.txt > codec-decimal.txt
+    printf "\nCriando pasta de backup com arquivos hexadecimais..."
+    mkdir -p hex-backup && mv codec.txt codec.txt.svg hex-backup/
+    printf "\nGerando PinConfigs..."
+    scripts/./verbit hex-backup/codec.txt > verbs.txt
+    mv codec-decimal.txt codec-decimal.txt.svg verbs.txt verbitdebug.txt convertidos/
+    printf "\n${GREEN}[SUCESSO]${NC} Arquivos gerados com sucesso\n"
+else 
+    if [[ $STATUS == RERUN ]]; then 
+        printf "${RED}[ATENÇÃO]${NC}\n" 
+        printf "Foi detectado que você possui um codec já configurado\n"
+        printf "Adicione novamente o arquivo de codec no diretório principal\n"
+        printf "Deseja gerar um novo layout? sim/não: "
+        read KEY
+        if [[ ${KEY} = sim ]] || [[ ${KEY} = "" ]]; then
+            if test -f "codec.txt"; then
+                printf "Gerando nova configuração...\n"
+                rm -rf convertidos/codec-decimal.txt.svg convertidos/codec-decimal.txt convertidos/verbitdebug.txt convertidos/verbs.txt hex-backup
+                mkdir -p hex-backup
+                codecgraph codec.txt
+                scripts/./conversor-decimal.rb codec.txt.svg > codec-decimal.txt.svg
+                scripts/./conversor-decimal.rb codec.txt > codec-decimal.txt
+                mv codec.txt codec.txt.svg hex-backup/
+                scripts/./verbit hex-backup/codec.txt > verbs.txt
+		mv codec-decimal.txt codec-decimal.txt.svg verbs.txt verbitdebug.txt convertidos/
+            else
+                printf "\n${RED}[ERRO]${NC} Arquivo codec.txt não foi encontrado.\n" 
+            fi
+        fi
+    else
+        printf "${RED}[ERRO]${NC} Não foram encontrados os arquivos necessários\n"
+    fi
+fi
