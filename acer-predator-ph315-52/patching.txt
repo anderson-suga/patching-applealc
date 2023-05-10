@@ -244,8 +244,8 @@ Node 0x06 - 6 [Audio Output] wcaps 0x611: Stereo Digital
   Power states:  D0 D1 D2 D3 EPSS
   Power: setting=D0, actual=D0
 
-[Interno] 2 [AUDIO OUTPUT] > 12 [Audio Mixer] > 20 [Pin Complex]
-[Externo] 3 [AUDIO OUTPUT] > 13 [Audio Mixer] > 33 [Pin Complex]
+[Interno] 27 (0x1b) [Pin Complex] > 12 (0x0c) [Audio Mixer] > 2 (0x02) [AUDIO OUTPUT]
+[Externo] 33 (0x21) [Pin Complex] > 13 (0x0d) [Audio Mixer] > 3 (0x03) [AUDIO OUTPUT]
 
 --------------------------------------------------------------------------------------------------
 
@@ -284,12 +284,23 @@ Node 0x09 - 9 [Audio Input] wcaps 0x10051b: Stereo Amp-In
   Connection: 1
      0x22
 
+[Interno] 18 (0x12) [Pin Complex] > 35 (0x23) [Audio Mixer] > 8 (0x08) [AUDIO INPUT]
+[Externo] 25 (0x19) [Pin Complex] > 34 (0x22) [Audio Mixer] > 9 (0x09) [AUDIO INPUT]
+
 --------------------------------------------------------------------------------------------------
 
 [AUDIO OUTPUT - Interno]
-Node 0x14 - 20 : Pin Default 0x90171120 : EAPD 0x2
+Node 0x1b - 27 : Pin Default 0x411111f0 : EAPD 0x2
     Extracted verb data: "20 11 17 90"
 
 [AUDIO OUTPUT - Externo]
 Node 0x21 - 33 : Pin Default 0x02211030 : EAPD 0x2
     Extracted verb data: "30 10 21 02"
+
+[AUDIO INPUT - Interno]
+Node 0x12 - 18 : Pin Default 0x90a60140
+    Extracted verb data: "40 01 a6 90"
+
+[AUDIO INPUT - Externo]
+Node 0x19 - 25 : Pin Default 0x411111f0
+    Extracted verb data: "f0 11 11 41"
