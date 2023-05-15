@@ -6,19 +6,7 @@ Vendor Id: 0x10ec0255 [283902549]
 
 PIN COMPLEX
 
-Node 0x12 - 18 [Pin Complex] wcaps 0x40040b: Stereo Amp-In
-  Control: name="Internal Mic Boost Volume", index=0, device=0
-    ControlAmp: chs=3, dir=In, idx=0, ofs=0
-  Amp-In caps: ofs=0x00, nsteps=0x03, stepsize=0x27, mute=0
-  Amp-In vals:  [0x00 0x00]
-  Pincap 0x00000020: IN
-  Pin Default 0x90a60140: [Fixed] Mic at Int N/A
-    Conn = Digital, Color = Unknown
-    DefAssociation = 0x4, Sequence = 0x0
-    Misc = NO_PRESENCE
-  Pin-ctls: 0x20: IN
-  Power states:  D0 D1 D2 D3 EPSS
-  Power: setting=D0, actual=D0
+
 
 Node 0x14 - 20 [Pin Complex] wcaps 0x40058d: Stereo Amp-Out
   Control: name="Speaker Playback Switch", index=0, device=0
@@ -62,6 +50,20 @@ Node 0x18 - 24 [Pin Complex] wcaps 0x40048b: Stereo Amp-In
     Misc = NO_PRESENCE
   Pin-ctls: 0x20: IN VREF_HIZ
   Unsolicited: tag=00, enabled=0
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=D0, actual=D0
+
+Node 0x12 - 18 [Pin Complex] wcaps 0x40040b: Stereo Amp-In
+  Control: name="Internal Mic Boost Volume", index=0, device=0
+    ControlAmp: chs=3, dir=In, idx=0, ofs=0
+  Amp-In caps: ofs=0x00, nsteps=0x03, stepsize=0x27, mute=0
+  Amp-In vals:  [0x00 0x00]
+  Pincap 0x00000020: IN
+  Pin Default 0x90a60140: [Fixed] Mic at Int N/A
+    Conn = Digital, Color = Unknown
+    DefAssociation = 0x4, Sequence = 0x0
+    Misc = NO_PRESENCE
+  Pin-ctls: 0x20: IN
   Power states:  D0 D1 D2 D3 EPSS
   Power: setting=D0, actual=D0
 
@@ -290,9 +292,9 @@ Node 0x09 - 9 [Audio Input] wcaps 0x10051b: Stereo Amp-In
 --------------------------------------------------------------------------------------------------
 
 [AUDIO OUTPUT - Interno]
-Node 0x1b - 27 : Pin Default 0x411111f0 : EAPD 0x2
+Node 0x14 - 20 : Pin Default 0x90171120 : EAPD 0x2
     Extracted verb data: "20 11 17 90"
-                         "10 11 17 90" [ Correction 20->10(Note 4)]
+                         "10 11 17 90"
 
 [AUDIO OUTPUT - Externo]
 Node 0x21 - 33 : Pin Default 0x02211030 : EAPD 0x2
@@ -314,20 +316,20 @@ Node 0x19 - 25 : Pin Default 0x411111f0
 
 --------------------------------------------------------------------------------------------------
 
-Node 0x1b - 27 : 10 11 17 90
+Node 0x14 - 20 : 10 11 17 90
 Node 0x21 - 33 : 20 10 21 02
 Node 0x12 - 18 : 30 01 a0 90
 Node 0x19 - 25 : 40 10 81 41
-Node 0x1b - 27 EAPD : 02
+Node 0x14 - 20 EAPD : 02
 Node 0x21 - 33 EAPD : 02
 
 --------------------------------------------------------------------------------------------------
 
 For the Pin Complex Node 1b:
-0 + 1b + 71c + 10 = 01b71c10
-0 + 1b + 71d + 11 = 01b71d11
-0 + 1b + 71e + 17 = 01b71e17
-0 + 1b + 71f + 90 = 01b71f90
+0 + 14 + 71c + 10 = 01471c10
+0 + 14 + 71d + 11 = 01471d11
+0 + 14 + 71e + 17 = 01471e17
+0 + 14 + 71f + 90 = 01471f90
 
 For the Pin Complex Node 21:
 0 + 21 + 71c + 20 = 02171c20
@@ -347,13 +349,13 @@ For the Pin Complex Node 19:
 0 + 19 + 71e + 81 = 01971e81
 0 + 19 + 71f + 41 = 01971f41
 
-For EAPD at Node 1b:
-0 + 1b +70c + 02 = 01b70c02
+For EAPD at Node 14:
+0 + 14 +70c + 02 = 01470c02
 
 For EAPD at Node 21:
 0 + 21 +70c + 02 = 02170c02
 
-<01b71c10 01b71d11 01b71e17 01b71f90 01b70c02
+<01471c10 01471d11 01471e17 01471f90 01470c02
 02171c20 02171d10 02171e21 02171f02 02170c02
 01271c30 01271d01 01271ea0 01271f90
 01971c40 01971d10 01971e81 01971f41>
@@ -362,14 +364,14 @@ For EAPD at Node 21:
 
 DISABLING THE NODES (PIN COMPLEX) THAT ARE NOT USED:
 
-Node 0x14
+Node 0x1b
 Node 0x17
 Node 0x18
 Node 0x1a
 Node 0x1d
 Node 0x1e
 
-<01471cf0 01471d00 01471e00 01471f40
+<01b71cf0 01b71d00 01b71e00 01b71f40
 01771cf0 01771d00 01771e00 01771f40
 01871cf0 01871d00 01871e00 01871f40
 01a71cf0 01a71d00 01a71e00 01a71f40
@@ -378,27 +380,37 @@ Node 0x1e
 
 --------------------------------------------------------------------------------------------------
 
-<01271c30 01271d01 01271ea0 01271f90
-01471cf0 01471d00 01471e00 01471f40
+0x19 SET_PIN_WIDGET_CONTROL 0x24 
+
+
+<01471c10 01471d11 01471e17 01471f90 01470c02
+02171c20 02171d10 02171e21 02171f02 02170c02
+01271c30 01271d01 01271ea0 01271f90
+01971c40 01971d10 01971e81 01971f41
+01b71cf0 01b71d00 01b71e00 01b71f40
 01771cf0 01771d00 01771e00 01771f40
 01871cf0 01871d00 01871e00 01871f40
-01971c40 01971d10 01971e81 01971f41
 01a71cf0 01a71d00 01a71e00 01a71f40
-01b71c10 01b71d11 01b71e17 01b71f90 01b70c02
 01d71cf0 01d71d00 01d71e00 01d71f40
-01e71cf0 01e71d00 01e71e00 01e71f40
-02171c20 02171d10 02171e21 02171f02 02170c02>
+01e71cf0 01e71d00 01e71e00 01e71f40>
+
+<01471C10 01471D10 01471E17 01471F90 01470C02 02171C20 02171D10 02171E21 02171F01 02170C02 01271C30 01271D00 01271EA0 01271F90 01971C40 01971D10 01971E81 01971F01 01970724>
+
+<01471C10 01471D11 01471E17 01471F90 01470C02 02171C20 02171D10 02171E21 02171F02 02170C02 01271C30 01271D01 01271EA0 01271F90 01971C40 01971D10 01971E81 01971F01 01B71CF0 01B71D00 01B71E00 01B71F40 01771CF0 01771D00 01771E00 01771F40 01871CF0 01871D00 01871E00 01871F40 01A71CF0 01A71D00 01A71E00 01A71F40 01D71CF0 01D71D00 01D71E00 01D71F40 01E71CF0 01E71D00 01E71E00 01E71F40>
 
 
-<01B71C10 01B71D11 01B71E17 01B71F90 01B70C02 
-02171C20 02171D10 02171E21 02171F02 02170C02 
-01271C30 01271D01 01271EA0 01271F90 
-01971C40 01971D10 01971E81 01971F01 
-01471CF0 01471D00 01471E00 01471F40 
-01771CF0 01771D00 01771E00 01771F40 
-01871CF0 01871D00 01871E00 01871F40 
-01A71CF0 01A71D00 01A71E00 01A71F40 
-01D71CF0 01D71D00 01D71E00 01D71F40 
-01E71CF0 01E71D00 01E71E00 01E71F40
+For desktops: 
+F0 00 00 40 - unused (disabled) pin complex 
+10 40 11 01 - built-in speaker 
+20 40 21 01 - headphones 
+60 90 A0 90 - Built-in microphone 
+70 90 81 01 - front microphone (disguised as a line input) 
+80 30 81 01 - Line In 
+90 61 4B 01 - SPDIF-Out - digital optical output 
+A0 01 СB 01 - SPDIF-In - digital optical input
 
-<01B71C10 01B71D11 01B71E17 01B71F90 01B70C02 02171C20 02171D10 02171E21 02171F02 02170C02 01271C30 01271D01 01271EA0 01271F90 01971C40 01971D10 01971E81 01971F01 01471CF0 01471D00 01471E00 01471F40 01771CF0 01771D00 01771E00 01771F40 01871CF0 01871D00 01871E00 01871F40 01A71CF0 01A71D00 01A71E00 01A71F40 01D71CF0 01D71D00 01D71E00 01D71F40 01E71CF0 01E71D00 01E71E00 01E71F40>
+Additional line outputs (needed if you use 5.1 or 7.1 sound): 30 60 01 01 - Orange line out (Orange) 40 20 01 01 - Line output in gray (Gray) 50 10 01 01 - Black line out (Black)
+
+For laptops: 
+10 10 13 99 - Built-in speaker 
+60 01 A0 90 - Built-in microphone

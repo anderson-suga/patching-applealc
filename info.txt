@@ -1,3 +1,6 @@
 https://osxlatitude.com/forums/topic/1946-complete-applehda-patching-guide/
 
 https://github.com/5T33Z0/AppleALC-Guides
+
+https://github.com/F0x1c/AppleALC_Instructions
+
